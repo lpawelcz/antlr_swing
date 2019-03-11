@@ -1,4 +1,4 @@
-package tb.antlr;
+package tb.antlr.interpreter;
 
 import org.antlr.runtime.*;
 import org.antlr.runtime.tree.*;

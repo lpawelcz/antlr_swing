@@ -8,7 +8,7 @@ options {
 }
 
 @header {
-package tb.antlr;
+package tb.antlr.interpreter;
 }
 
 prog    : (e=expr {drukuj ($e.out.toString());})* ;

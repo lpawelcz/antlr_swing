@@ -1,0 +1,8 @@
+group pierwszy;
+
+int(i) ::= <<
+Mam inta!
+<i>
+>>
+
+dodaj(p1, p2) ::= "<p1> ... i nie zawaham siê go u¿yæ..."
