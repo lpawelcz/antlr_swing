@@ -119,17 +119,17 @@ public class Okno extends JFrame {
 	}
 
 	private void doParse() {
-		// Tworzymy analizator leksykalny i kaøemy mu czytaÊ z stdin
+		// Tworzymy analizator leksykalny i ka≈ºemy mu czytaƒá z okna
 		ANTLRStringStream input = new ANTLRStringStream(inputPane.getText());
 		ExprLexer lexer = new ExprLexer(input);
 
-		// Tworzymy bufor na tokeny pomiÍdzy analizatorem leksykalnym a parserem
+		// Tworzymy bufor na tokeny pomiƒôdzy analizatorem leksykalnym a parserem
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-		// Tworzymy parser czytajπcy z powyøszego bufora
+		// Tworzymy parser czytajƒÖcy z powy≈ºszego bufora
 		ExprParser parser = new ExprParser(tokens);
 
-		// Wywo≥ujemy parser generujπcy drzewo startujπc od regu≥y prog (Z klasy Expr)
+		// Wywo≈Çujemy parser generujƒÖcy drzewo startujƒÖc od regu≈Çy prog (Z klasy Expr)
 		ExprParser.prog_return root = null;
 		try {
 			root = parser.prog();
@@ -137,18 +137,17 @@ public class Okno extends JFrame {
 			e.printStackTrace();
 		}
 
-		// Wypisujemy drzewo na standardowe wyjúcie
-		// System.out.println(((CommonTree)root.tree).toStringTree());
+		// Wypisujemy drzewo w oknie ast
 		astPane.setText(root.tree.toStringTree());
 
-		// Tworzymy bufor na wÍz≥y drzewa
+		// Tworzymy bufor na wƒôz≈Çy drzewa
 		nodes = new CommonTreeNodeStream(root.tree);
 		parseTButton.setEnabled(true);
 		compileButton.setEnabled(true);
 	}
 
 	private void doTreeParseInterpret() {
-		// Tworzymy parser drzew korzystajπcy z powyøszego bufora
+		// Tworzymy parser drzew korzystajƒÖcy z powy≈ºszego bufora
 		TExpr1 walker = new TExpr1(nodes);
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -156,7 +155,7 @@ public class Okno extends JFrame {
 		PrintStream old = System.out;
 		System.setOut(ps);
 
-		// Wywo≥ujemy parser drzew - startujπc od regu≥y prog (Tym razem z klasy
+		// Wywo≈Çujemy parser drzew - startujƒÖc od regu≈Çy prog (Tym razem z klasy
 		// TExpr1!)
 		try {
 			walker.prog();
@@ -172,11 +171,11 @@ public class Okno extends JFrame {
 	private void doTreeParseCompile() {
 		String packagePath = TExpr3.class.getPackage().getName().replaceAll("\\.", "/");
 
-		// £adujemy szablony
+		// ≈Åadujemy szablony
 		FileReader groupFile;
 		StringTemplateGroup templates = null;
 		try {
-			groupFile = new FileReader("src/"+packagePath+"/pierwszy.stg");
+			groupFile = new FileReader("src/" + packagePath + "/pierwszy.stg");
 			templates = new StringTemplateGroup(groupFile);
 			groupFile.close();
 		} catch (IOException e) {
@@ -185,13 +184,13 @@ public class Okno extends JFrame {
 			return;
 		}
 
-		// Tworzymy parser drzew korzystajπcy z powyøszego bufora
+		// Tworzymy parser drzew korzystajƒÖcy z powy≈ºszego bufora
 		TExpr3 walker = new TExpr3(nodes);
 
-		// T≥umaczymy parserowi drzew, jakich szablonÛw ma uøywaÊ
+		// T≈Çumaczymy parserowi drzew, jakich szablon√≥w ma u≈ºywaƒá
 		walker.setTemplateLib(templates);
 
-		// Wywo≥ujemy parser drzew - startujπc od regu≥y prog (Tym razem z klasy
+		// Wywo≈Çujemy parser drzew - startujƒÖc od regu≈Çy prog (Tym razem z klasy
 		// TExpr3!)
 		TExpr3.prog_return tpl = null;
 		try {
@@ -201,12 +200,12 @@ public class Okno extends JFrame {
 			e.printStackTrace();
 		}
 
-		// Pobierz "wype≥niony" szablon
+		// Pobierz "wype≈Çniony" szablon
 		StringTemplate stp = (StringTemplate) tpl.getTemplate();
 
-		// Wypisujemy wype≥niony szablon
-
+		// Wypisujemy wype≈Çniony szablon
 		assemblyPane.setText(stp.toString());
+
 		nodes.reset();
 	}
 
