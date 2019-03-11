@@ -11,7 +11,7 @@ options {
 package tb.antlr.interpreter;
 }
 
-prog    : (e=expr {drukuj ($e.out.toString());})* ;
+prog    : (e=expr {drukuj ($e.text + " = " + $e.out.toString());})* ;
 
 expr returns [Integer out]
 	      : ^(PLUS  e1=expr e2=expr) {$out = $e1.out + $e2.out;}

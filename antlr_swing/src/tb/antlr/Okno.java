@@ -142,6 +142,8 @@ public class Okno extends JFrame {
 
 		// Tworzymy bufor na węzły drzewa
 		nodes = new CommonTreeNodeStream(root.tree);
+		nodes.setTokenStream(tokens);
+		
 		parseTButton.setEnabled(true);
 		compileButton.setEnabled(true);
 	}

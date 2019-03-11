@@ -14,7 +14,7 @@ public class MyTreeParser extends TreeParser {
     }
 
     protected void drukuj(String text) {
-        System.out.println(text);
+        System.out.println(text.replace('\r', ' ').replace('\n', ' '));
     }
 
 	protected Integer getInt(String text) {
