@@ -13,13 +13,21 @@ options {
 package tb.antlr.kompilator;
 }
 
-prog    : e+=expr* -> template(name={$e}) "<name;separator=\" aaa!!! \">";
+@members {
+  Integer numer = 0;
+}
+prog    : (e+=expr | d+=decl)* -> template(name={$e},deklaracje={$d}) "<deklaracje> start: <name;separator=\" \n\"> ";
+
+decl  :
+        ^(VAR i1=ID) {globals.newSymbol($ID.text);} -> dek(n={$ID.text})
+    ;
+    catch [RuntimeException ex] {errorID(ex,$i1);}
 
 expr    : ^(PLUS  e1=expr e2=expr) -> dodaj(p1={$e1.st},p2={$e2.st})
         | ^(MINUS e1=expr e2=expr) 
         | ^(MUL   e1=expr e2=expr) 
         | ^(DIV   e1=expr e2=expr) 
         | ^(PODST i1=ID   e2=expr) 
-        | INT                      -> int(i={$INT.text})
+        | INT  {numer++;}                    -> int(i={$INT.text},j={numer.toString()})
     ;
     

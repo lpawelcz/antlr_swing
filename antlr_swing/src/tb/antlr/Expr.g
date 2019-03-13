@@ -19,7 +19,8 @@ prog
 stat
     : expr NL -> expr
 
-
+//    | VAR ID PODST expr NL -> ^(VAR ID) ^(PODST ID expr)
+    | VAR ID NL -> ^(VAR ID)
     | ID PODST expr NL -> ^(PODST ID expr)
 
     | NL ->
@@ -45,7 +46,7 @@ atom
     | LP! expr RP!
     ;
 
-VAR :'int';
+VAR :'var';
 
 ID : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
