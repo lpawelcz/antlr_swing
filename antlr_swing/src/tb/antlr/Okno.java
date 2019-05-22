@@ -1,5 +1,6 @@
 package tb.antlr;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
@@ -28,6 +31,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.awt.event.InputMethodEvent;
+import javax.swing.JTextArea;
 
 public class Okno extends JFrame {
 
@@ -70,6 +74,29 @@ public class Okno extends JFrame {
 
 		inputPane = new JTextPane();
 		inputPane.setBounds(5, 5, 280, 280);
+		inputPane.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+//				System.out.println("w remove");
+				invalidTree(true);
+				
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+//				System.out.println("w insert");
+				invalidTree(true);
+				
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+//				System.out.println("w changed");
+				invalidTree(true);
+				
+			}
+		});
 		contentPane.add(inputPane);
 
 		JButton parseButton = new JButton("Parse");
@@ -118,6 +145,12 @@ public class Okno extends JFrame {
 
 	}
 
+	protected void invalidTree(boolean b) {
+		parseTButton.setEnabled(!b);
+		compileButton.setEnabled(!b);
+		astPane.setForeground(b ? Color.LIGHT_GRAY : Color.BLACK);
+	}
+
 	private void doParse() {
 		// Tworzymy analizator leksykalny i każemy mu czytać z okna
 		ANTLRStringStream input = new ANTLRStringStream(inputPane.getText());
@@ -144,8 +177,7 @@ public class Okno extends JFrame {
 		nodes = new CommonTreeNodeStream(root.tree);
 		nodes.setTokenStream(tokens);
 		
-		parseTButton.setEnabled(true);
-		compileButton.setEnabled(true);
+		invalidTree(false);
 	}
 
 	private void doTreeParseInterpret() {
