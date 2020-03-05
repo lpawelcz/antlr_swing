@@ -21,7 +21,7 @@ stat
 
 //    | VAR ID PODST expr NL -> ^(VAR ID) ^(PODST ID expr)
     | VAR ID NL -> ^(VAR ID)
-    | ID PODST expr NL -> ^(PODST ID expr)
+    | ID WRITE expr NL -> ^(WRITE ID expr)
 
     | NL ->
     ;
@@ -65,7 +65,7 @@ RP
 	:	')'
 	;
 
-PODST
+WRITE
 	:	'='
 	;
 
